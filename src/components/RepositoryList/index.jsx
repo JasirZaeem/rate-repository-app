@@ -9,19 +9,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const fetchRepositories = async () => {
-  const response = await fetch("http://192.168.100.18:5000/api/repositories");
-  const json = await response.json();
-
-  console.log(json);
-  return json;
-};
-
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
-  const repositoryNodes = repositories?.edges.map(({ node }) => node) ?? [];
+  const { repositories, loading } = useRepositories();
+  const repositoryNodes = loading
+    ? []
+    : repositories?.edges.map(({ node }) => node);
   return (
     <FlatList
       data={repositoryNodes}
