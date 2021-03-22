@@ -1,0 +1,147 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type AuthorizationPayload {
+    accessToken: String!
+    expiresAt: DateTime!
+    user: User!
+}
+
+type Mutation {
+    "Generates a new access token, if provided credentials (username and password) match any registered user."
+    authorize(credentials: AuthorizeInput): AuthorizationPayload
+    "Creates a review for the given repository defined by repositoryName and ownerName."
+    createReview(review: CreateReviewInput): Review
+    "Creates a new user, if the provided username does not already exist."
+    createUser(user: CreateUserInput): User
+    "Deletes the review which has the given id, if it is created by the authorized user."
+    deleteReview(id: ID!): Boolean
+    root: String
+}
+
+type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+}
+
+type Query {
+    "Returns the authorized user."
+    authorizedUser: User
+    "Returns paginated repositories."
+    repositories(after: String, first: Int, orderBy: AllRepositoriesOrderBy, orderDirection: OrderDirection, ownerName: String, searchKeyword: String): RepositoryConnection!
+    "Returns repository by an id."
+    repository(id: ID!): Repository
+    root: String
+    "Returns paginated users."
+    users(after: String, first: Int): UserConnection!
+}
+
+type Repository {
+    authorizedUserHasReviewed: Boolean
+    createdAt: DateTime!
+    description: String
+    forksCount: Int
+    fullName: String!
+    id: ID!
+    language: String
+    name: String!
+    openIssuesCount: Int
+    ownerAvatarUrl: String
+    ownerName: String!
+    ratingAverage: Int!
+    reviewCount: Int!
+    reviews(after: String, first: Int): ReviewConnection!
+    stargazersCount: Int
+    url: String
+    user: User!
+    watchersCount: Int
+}
+
+type RepositoryConnection {
+    edges: [RepositoryEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type RepositoryEdge {
+    cursor: String!
+    node: Repository!
+}
+
+type Review {
+    createdAt: DateTime!
+    id: ID!
+    rating: Int!
+    repository: Repository!
+    repositoryId: String!
+    text: String
+    user: User!
+    userId: String!
+}
+
+type ReviewConnection {
+    edges: [ReviewEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type ReviewEdge {
+    cursor: String!
+    node: Review!
+}
+
+type User {
+    createdAt: DateTime!
+    id: ID!
+    reviewCount: Int!
+    reviews(after: String, first: Int): ReviewConnection!
+    username: String!
+}
+
+type UserConnection {
+    edges: [UserEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type UserEdge {
+    cursor: String!
+    node: User!
+}
+
+enum AllRepositoriesOrderBy {
+    CREATED_AT
+    RATING_AVERAGE
+}
+
+enum OrderDirection {
+    ASC
+    DESC
+}
+
+input AuthorizeInput {
+    password: String!
+    username: String!
+}
+
+input CreateReviewInput {
+    ownerName: String!
+    rating: Int!
+    repositoryName: String!
+    text: String
+}
+
+input CreateUserInput {
+    password: String!
+    username: String!
+}
+
+
+"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar DateTime

@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Image } from "react-native";
-import Text from "./Text";
-import theme from "../theme";
-import Stat from "./Stat";
+import Text from "../Text";
+import theme from "../../theme";
+import Stat from "../Stat";
 
 const styles = StyleSheet.create({
   repoListItem: {

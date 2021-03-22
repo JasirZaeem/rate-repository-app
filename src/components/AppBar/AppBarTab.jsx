@@ -1,4 +1,4 @@
-import Text from "./Text";
+import Text from "../Text";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Link } from "react-router-native";
