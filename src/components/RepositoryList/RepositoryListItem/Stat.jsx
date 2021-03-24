@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import Text from "./Text";
+import Text from "../../Text";
 import React from "react";
 
 const styles = StyleSheet.create({
@@ -16,7 +16,7 @@ const Stat = ({ value, label }) => {
       : Math.sign(value) * Math.abs(value);
 
   return (
-    <View style={styles.stat}>
+    <View style={styles.stat} testID={"stat"}>
       <Text fontSize={"subheading"} fontWeight={"bold"}>
         {value}
       </Text>
