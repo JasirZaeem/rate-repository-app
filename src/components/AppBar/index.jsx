@@ -18,18 +18,22 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const { authorizedUser } = useAuthorizedUser();
-
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text={"Repositories"} linkTo={"/"} />
         {authorizedUser ? (
-          <SignOutTab />
+          <>
+            <AppBarTab text={"Create Review"} linkTo={"/createReview"} />
+            <AppBarTab text={"My Reviews"} linkTo={"/myReviews"} />
+            <SignOutTab />
+          </>
         ) : (
-          <AppBarTab text={"Sign In"} linkTo={"/signIn"} />
+          <>
+            <AppBarTab text={"Sign In"} linkTo={"/signIn"} />
+            <AppBarTab text={"Sign Up"} linkTo={"/signUp"} />
+          </>
         )}
-
-        {/*<AppBarTab text={"Create a review"}/>*/}
       </ScrollView>
     </View>
   );

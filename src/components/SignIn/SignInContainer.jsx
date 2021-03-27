@@ -1,23 +1,8 @@
-import { StyleSheet, View } from "react-native";
-import theme from "../../theme";
+import { View } from "react-native";
 import * as yup from "yup";
 import { Formik } from "formik";
 import SignInForm from "./SignInForm";
 import React from "react";
-
-const styles = StyleSheet.create({
-  submit: {
-    borderRadius: 4,
-    marginTop: 8,
-    padding: 16,
-    alignItems: "center",
-    backgroundColor: theme.colors.primary,
-  },
-  form: {
-    backgroundColor: theme.colors.backgroundLight,
-    padding: 16,
-  },
-});
 
 const validationSchema = yup.object().shape({
   username: yup.string().required(),

@@ -1,8 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Pressable, Linking } from "react-native";
 import Text from "../../Text";
 import theme from "../../../theme";
 import Stat from "./Stat";
+import { useHistory } from "react-router-native";
 
 const styles = StyleSheet.create({
   repoListItem: {
@@ -36,9 +37,15 @@ const styles = StyleSheet.create({
     padding: 8,
     marginTop: 12,
   },
+  githubLink: {
+    width: "100%",
+    alignItems: "center",
+    padding: 12,
+  },
 });
 
 const RepositoryListItem = ({
+  id,
   fullName,
   description,
   language,
@@ -47,31 +54,47 @@ const RepositoryListItem = ({
   ratingAverage,
   reviewCount,
   ownerAvatarUrl,
+  url,
+  showGithubLink = false,
 }) => {
+  const history = useHistory();
+
   return (
     <View style={styles.repoListItem} testID={"repositoryListItem"}>
-      <View style={styles.summary}>
-        <View>
-          <Image style={styles.avatar} source={{ uri: ownerAvatarUrl }} />
-        </View>
+      <Pressable onPress={() => history.push(`/repository/${id}`)}>
+        <View style={styles.summary}>
+          <View>
+            <Image style={styles.avatar} source={{ uri: ownerAvatarUrl }} />
+          </View>
 
-        <View style={styles.summaryText}>
-          <Text fontSize={"subheading"} fontWeight={"bold"}>
-            {fullName}
-          </Text>
-          <Text>{description}</Text>
-          <View style={styles.language}>
-            <Text color={"textLight"}>{language}</Text>
+          <View style={styles.summaryText}>
+            <Text fontSize={"subheading"} fontWeight={"bold"}>
+              {fullName}
+            </Text>
+            <Text>{description}</Text>
+            <View style={styles.language}>
+              <Text color={"textLight"}>{language}</Text>
+            </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.stats} testID={"stats"}>
-        <Stat value={stargazersCount} label={"Stars"} />
-        <Stat value={forksCount} label={"Forks"} />
-        <Stat value={reviewCount} label={"Reviews"} />
-        <Stat value={ratingAverage} label={"Rating"} />
-      </View>
+        <View style={styles.stats} testID={"stats"}>
+          <Stat value={stargazersCount} label={"Stars"} />
+          <Stat value={forksCount} label={"Forks"} />
+          <Stat value={reviewCount} label={"Reviews"} />
+          <Stat value={ratingAverage} label={"Rating"} />
+        </View>
+      </Pressable>
+      {showGithubLink ? (
+        <Pressable
+          onPress={() => Linking.openURL(url)}
+          style={[styles.language, styles.githubLink]}
+        >
+          <Text fontSize={"subheading"} color={"textLight"}>
+            Open in Github
+          </Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 };
